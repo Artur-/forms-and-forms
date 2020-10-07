@@ -40,11 +40,12 @@ public class PersonFormView extends Div {
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<Person> binder = new Binder(Person.class);
+    private Binder<Person> binder = new Binder<>(Person.class);
 
     public PersonFormView(PersonService personService) {
         UserInfo localUser = new UserInfo(UUID.randomUUID().toString());
         CollaborationAvatarGroup avatarGroup = new CollaborationAvatarGroup(localUser, "person-form");
+        localUser.setName("Jhon Doe");
         addComponentAsFirst(avatarGroup);
 
         setId("person-form-view");
