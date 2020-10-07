@@ -1,11 +1,14 @@
 package com.example.application.views.main;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.example.application.views.addressform.AddressFormView;
 import com.example.application.views.creditcardform.CreditCardFormView;
 import com.example.application.views.masterdetail.MasterDetailView;
 import com.example.application.views.personform.PersonFormView;
+import com.vaadin.collaborationengine.CollaborationAvatarGroup;
+import com.vaadin.collaborationengine.UserInfo;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -36,8 +39,10 @@ public class MainView extends AppLayout {
 
     private final Tabs menu;
     private H1 viewTitle;
+    private LocalUser localUser;
 
-    public MainView() {
+    public MainView(LocalUser localUser) {
+        this.localUser = localUser;
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         menu = createMenu();
@@ -54,7 +59,7 @@ public class MainView extends AppLayout {
         layout.add(new DrawerToggle());
         viewTitle = new H1();
         layout.add(viewTitle);
-        layout.add(new Image("images/user.svg", "Avatar"));
+        layout.add(new CollaborationAvatarGroup(localUser, "header"));
         return layout;
     }
 

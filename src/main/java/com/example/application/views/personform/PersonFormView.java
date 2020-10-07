@@ -1,12 +1,11 @@
 package com.example.application.views.personform;
 
-import java.util.UUID;
-
 import com.example.application.data.entity.Person;
 import com.example.application.data.service.PersonService;
+import com.example.application.views.main.LocalUser;
 import com.example.application.views.main.MainView;
 import com.vaadin.collaborationengine.CollaborationAvatarGroup;
-import com.vaadin.collaborationengine.UserInfo;
+import com.vaadin.collaborationengine.CollaborationBinder;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -21,7 +20,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -40,12 +38,10 @@ public class PersonFormView extends Div {
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<Person> binder = new Binder<>(Person.class);
-
-    public PersonFormView(PersonService personService) {
-        UserInfo localUser = new UserInfo(UUID.randomUUID().toString());
+    public PersonFormView(PersonService personService, LocalUser localUser) {
+        CollaborationBinder<Person> binder = new CollaborationBinder<>(Person.class, localUser);
+        binder.setTopic("person-form", () -> new Person());
         CollaborationAvatarGroup avatarGroup = new CollaborationAvatarGroup(localUser, "person-form");
-        localUser.setName("Jhon Doe");
         addComponentAsFirst(avatarGroup);
 
         setId("person-form-view");
@@ -66,7 +62,7 @@ public class PersonFormView extends Div {
     }
 
     private void clearForm() {
-        binder.setBean(new Person());
+        // binder.setBean(new Person());
     }
 
     private Component createTitle() {
